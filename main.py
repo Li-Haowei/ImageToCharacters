@@ -33,6 +33,7 @@ for i in range(len(number_pic)):
     #print(''.join(number_pic[i]))
     #print(number_pic[i]) 
     f.write(''.join(str(e) for e in number_pic[i]))
+    f.write('\n')
 
 f.close()
 io.imshow(img)
