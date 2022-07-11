@@ -8,3 +8,5 @@ The program also output JPG for users who want a cool filter and see themselves 
 # Demo 1: images to numbers
 (note: translated image should have no color at all. If you see color, that is some psychological effects)<br>
 <img src="imgTochar.jpg"/>
+<br>
+<img src="demo.gif"/>
