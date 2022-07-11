@@ -36,8 +36,21 @@ class interestingImageFilter():
     txtOutputScaling_X = 3 #The higher the less pixels
     txtOutputScaling_Y = 9 #The higher the less pixels
     
+    currentFilter = []
+    CharFilter0 = [',','1','2','3','4','s','w','#','$','@']
+    CharFilter1 = CharFilter0[::-1]
+    CharFilter2 = [x for x in range(0,10)]
+    def setFilterMode(self, i=0):
+        if i == 0:
+            self.currentFilter = self.CharFilter0
+        if i == 1:
+            self.currentFilter = self.CharFilter1
+        if i == 2:
+            self.currentFilter = self.CharFilter2
+                
     def __init__(self, imageAddress):
         self.img = io.imread(imageAddress)
+        self.setFilterMode()
         
     def printImgDimensions(self):
         print("height: ", len(self.img), ", width: ", len(self.img[0]),", RGB: ", len(self.img[0][0]))
@@ -67,7 +80,7 @@ class interestingImageFilter():
             for j in range(width):
                 temp = image_resized[i][j][0]*255*0.3+image_resized[i][j][1]*255*0.59+image_resized[i][j][2]*255*0.11
                 image_resized[i][j] = temp
-                row.append(int(temp//25))
+                row.append(self.currentFilter[int(temp//25)])
             f.write(''.join(str(e) for e in row))
             f.write('\n')
         f.close()
@@ -144,4 +157,5 @@ class interestingImageFilter():
 
 
 iif = interestingImageFilter(".\\ny.jpg")
+iif.setFilterMode(0)
 iif.getNumImg()
