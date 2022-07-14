@@ -10,3 +10,5 @@ The program also output JPG for users who want a cool filter and see themselves 
 <img src="imgTochar.jpg"/>
 <br>
 <img src="demo.gif"/>
+
+# Demo 2: Video with filter
