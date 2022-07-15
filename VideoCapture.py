@@ -4,33 +4,39 @@ Created on Mon Jul 11 16:14:49 2022
 
 @author: Haowei Li
 """
+# importing the necessary libraries
 import cv2
-
-cap = cv2.VideoCapture("./video.mp4")
-while not cap.isOpened():
-    cap = cv2.VideoCapture("./video.mp4")
-    cv2.waitKey(1000)
-    print("Wait for the header")
-
-CV_CAP_PROP_POS_FRAMES = 1
-pos_frame = cap.get(CV_CAP_PROP_POS_FRAMES)
-while True:
-    flag, frame = cap.read()
-    if flag:
-        # The frame is ready and already captured
-        cv2.imshow('video', frame)
-        pos_frame = cap.get(CV_CAP_PROP_POS_FRAMES)
-        print( str(pos_frame)+" frames")
-    else:
-        # The next frame is not ready, so we try to read it again
-        cap.set(CV_CAP_PROP_POS_FRAMES, pos_frame-1)
-        print( "frame is not ready")
-        # It is better to wait for a while for the next frame to be ready
-        cv2.waitKey(1000)
-
-    if cv2.waitKey(10) == 27:
+import numpy as np
+ 
+# Creating a VideoCapture object to read the video
+cap = cv2.VideoCapture('video.mp4')
+ 
+ 
+# Loop until the end of the video
+while (cap.isOpened()):
+ 
+    # Capture frame-by-frame
+    ret, frame = cap.read()
+    frame = cv2.resize(frame, (540, 380), fx = 0, fy = 0,
+                         interpolation = cv2.INTER_CUBIC)
+ 
+    # Display the resulting frame
+    cv2.imshow('Frame', frame)
+ 
+    # conversion of BGR to grayscale is necessary to apply this operation
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+ 
+    # adaptive thresholding to use different threshold
+    # values on different regions of the frame.
+    Thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
+                                           cv2.THRESH_BINARY_INV, 11, 2)
+ 
+    cv2.imshow('Thresh', Thresh)
+    # define q as the exit button
+    if cv2.waitKey(25) & 0xFF == ord('q'):
         break
-    if cap.get(CV_CAP_PROP_POS_FRAMES) == cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT):
-        # If the number of captured frames is equal to the total number of frames,
-        # we stop
-        break
+ 
+# release the video capture object
+cap.release()
+# Closes all the windows currently opened.
+cv2.destroyAllWindows()
