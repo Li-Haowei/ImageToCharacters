@@ -7,14 +7,13 @@ Created on Mon Jul 11 16:14:49 2022
 # importing the necessary libraries
 import cv2
 import numpy as np
-
 class InterestingVideoFilter():
     
     def __init__(self, video):
     # Creating a VideoCapture object to read the video
         self.cap = cv2.VideoCapture(video)
      
-    def blackAndWhite(self):
+    def blackAndWhite1(self):
         # Loop until the end of the video
         while (self.cap.isOpened()):
          
@@ -44,14 +43,17 @@ class InterestingVideoFilter():
         # Closes all the windows currently opened.
         cv2.destroyAllWindows()
     
-    def blackAndWhite(self):
+    def blackAndWhite2(self):
+        
+        height = 540
+        width = 380
         # Loop until the end of the video
         while (self.cap.isOpened()):
-         
+            
             # Capture frame-by-frame
             ret, frame = self.cap.read()
             try:
-                frame = cv2.resize(frame, (540, 380), fx = 0, fy = 0, interpolation = cv2.INTER_CUBIC)
+                frame = cv2.resize(frame, (height, width), fx = 0, fy = 0, interpolation = cv2.INTER_CUBIC)
             except:
                 # release the video capture object
                 self.cap.release()
@@ -62,14 +64,18 @@ class InterestingVideoFilter():
             cv2.imshow('Frame', frame)
             
             # conversion of BGR to grayscale is necessary to apply this operation
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-         
+            #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            
+            """"""
+            for i in range(len(frame)):
+                for j in range(len(frame[0])):
+                    frame[i][j] = np.dot(frame[i][j], [0.3, 0.59, 0.11])
+            
+            #print(type(frame[0][0]))
             # adaptive thresholding to use different threshold
             # values on different regions of the frame.
-            Thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
-                                                   cv2.THRESH_BINARY_INV, 11, 2)
          
-            cv2.imshow('Thresh', Thresh)
+            cv2.imshow('Thresh', frame)
             # define q as the exit button
             if cv2.waitKey(25) & 0xFF == ord('q'):
                 break
@@ -77,11 +83,13 @@ class InterestingVideoFilter():
             
     def smoothing(self):
         # Loop until the end of the video
+        height = 540
+        width = 380
         while (self.cap.isOpened()):
             # Capture frame-by-frame
             ret, frame = self.cap.read()
             try:
-                frame = cv2.resize(frame, (540, 380), fx = 0, fy = 0, interpolation = cv2.INTER_CUBIC)
+                frame = cv2.resize(frame, (height, width), fx = 0, fy = 0, interpolation = cv2.INTER_CUBIC)
             except:
                 # release the video capture object
                 self.cap.release()
@@ -90,10 +98,9 @@ class InterestingVideoFilter():
                 break
             # Display the resulting frame
             cv2.imshow('Frame', frame)
-            print(frame)
             
             # using cv2.Gaussianblur() method to blur the video
-         
+            
             # (5, 5) is the kernel size for blurring.
             gaussianblur = cv2.GaussianBlur(frame, (5, 5), 0)
             cv2.imshow('gblur', gaussianblur)
@@ -102,4 +109,4 @@ class InterestingVideoFilter():
             if cv2.waitKey(25) & 0xFF == ord('q'):
                 break
 iv = InterestingVideoFilter('video.mp4')
-iv.blackAndWhite()
+iv.blackAndWhite2()
