@@ -20,7 +20,7 @@ from PIL import (
 )
 
 #example address: ".\me.jpg"
-class interestingImageFilter():
+class InterestingImageFilter():
     
     PIL_GRAYSCALE = 'L'
     PIL_WIDTH_INDEX = 0
@@ -156,6 +156,6 @@ class interestingImageFilter():
 
 
 
-iif = interestingImageFilter(".\\ny.jpg")
+iif = InterestingImageFilter(".\\ny.jpg")
 iif.setFilterMode(0)
 iif.getNumImg()
