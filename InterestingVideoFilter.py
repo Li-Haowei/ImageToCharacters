@@ -66,16 +66,18 @@ class InterestingVideoFilter():
             # conversion of BGR to grayscale is necessary to apply this operation
             #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             
-            """"""
+            """
             for i in range(len(frame)):
                 for j in range(len(frame[0])):
                     frame[i][j] = np.dot(frame[i][j], [0.3, 0.59, 0.11])
+            cv2.imshow('Thresh', frame)        """
+            
             
             #print(type(frame[0][0]))
             # adaptive thresholding to use different threshold
             # values on different regions of the frame.
          
-            cv2.imshow('Thresh', frame)
+            
             # define q as the exit button
             if cv2.waitKey(25) & 0xFF == ord('q'):
                 break
@@ -108,5 +110,32 @@ class InterestingVideoFilter():
             # define q as the exit button
             if cv2.waitKey(25) & 0xFF == ord('q'):
                 break
+    def cv2Testing(self):
+         
+        # creating a square of zeros using a variable
+        rectangle = np.zeros((300, 300), dtype="uint8")
+        cv2.rectangle(rectangle, (25, 25), (275, 275), 255, -1)
+        cv2.imshow("Rectangle", rectangle)
+            
+        # creating a circle of zeros using a variable
+        circle = np.zeros((300, 300), dtype="uint8")
+        cv2.circle(circle, (150, 150), 150, 255, -1)
+        cv2.imshow("Circle", circle)
+            
+        bitwiseAnd = cv2.bitwise_and(rectangle, circle)
+        cv2.imshow("AND", bitwiseAnd)
+        
+        while True:
+            k = cv2.waitKey(100) 
+            if k==27: 
+                print('ESC')
+                cv2.destroyAllWindows()
+                break        
+            if (cv2.getWindowProperty('Rectangle',cv2.WND_PROP_VISIBLE) < 1 or
+            cv2.getWindowProperty('Circle',cv2.WND_PROP_VISIBLE) < 1 or
+            cv2.getWindowProperty('AND',cv2.WND_PROP_VISIBLE) < 1):
+                cv2.destroyAllWindows()
+                break  
+        
 iv = InterestingVideoFilter('video.mp4')
-iv.blackAndWhite2()
+iv.cv2Testing()
